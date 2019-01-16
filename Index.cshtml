@@ -1,0 +1,15 @@
+﻿@model IEnumerable<object>
+@{
+    ViewBag.Title = "Index";
+}
+<h2>Index</h2>
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    @Html.BuildHeaders(Model)
+
+@foreach (object item in Model) {
+    @Html.BuildRow(item)
+}
+</table>
