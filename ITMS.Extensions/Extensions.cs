@@ -90,10 +90,6 @@ namespace ITMS.Extensions
             var query = models.ApplySearch(options).ApplyFilters(options).ApplyOrders(options).ApplyPageNumber(options);
             return query;
         }
-        public static List<T> ListOfType<T>(this T type)
-        {
-            return new List<T>();
-        }
 
     }
 }
