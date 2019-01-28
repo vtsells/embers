@@ -1,0 +1,6 @@
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS 2.0\ITMS.Extensions\bin\Release\ITMS.Extensions.dll
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS 2.0\ITMS.Extensions\bin\Release\ITMS.Extensions.pdb
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS 2.0\ITMS.Extensions\obj\Release\ITMS.Extensions.csproj.CoreCompileInputs.cache
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS 2.0\ITMS.Extensions\obj\Release\ITMS.Extensions.dll
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS 2.0\ITMS.Extensions\obj\Release\ITMS.Extensions.pdb
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS 2.0\ITMS.Extensions\obj\Release\ITMS.Extensions.csprojAssemblyReference.cache
