@@ -12,24 +12,10 @@ namespace ITMS.Extensions
     public static class QueryableHelper
     {
 
-        public static IQueryable<TModel> Where<TModel>(this IQueryable<TModel> q, FilterOption option)
-        {
 
-            ParameterExpression pe = Expression.Parameter(typeof(TModel), "m");
-            Expression left = Expression.Property(pe, typeof(TModel).GetProperty(option.Column));
-            Expression right = Expression.Call(Expression.Constant(option.Value.ToLower(), typeof(string)), typeof(string).GetMethod("ToLower", Type.EmptyTypes));
-            Expression eq = Expression.Equal(left, right);
-            MethodCallExpression whereCallExpression = Expression.Call(
-                typeof(Queryable),
-                "Where",
-                new Type[] { q.ElementType },
-                q.Expression,
-                Expression.Lambda<Func<TModel, bool>>(eq, new ParameterExpression[] { pe })
-                );
-            return q.Provider.CreateQuery<TModel>(whereCallExpression);
-        }
-        public static IQueryable<TModel> Search<TModel>(this IQueryable<TModel> q, SearchOption option)
+        public static IQueryable<TModel> Search<TModel>(this IQueryable<TModel> collection, SearchOption option)
         {
+            if (option == null) return collection;
             ParameterExpression pe = Expression.Parameter(typeof(TModel), "m");
             Expression left = Expression.Property(pe, typeof(TModel).GetProperty(option.Column));
             Expression right = Expression.Call(Expression.Constant(option.Value.ToLower(), typeof(string)), typeof(string).GetMethod("ToLower", System.Type.EmptyTypes));
@@ -38,27 +24,27 @@ namespace ITMS.Extensions
             MethodCallExpression whereCallExpression = Expression.Call(
                 typeof(Queryable),
                 "Where",
-                new Type[] { q.ElementType },
-                q.Expression,
+                new Type[] { collection.ElementType },
+                collection.Expression,
                 Expression.Lambda<Func<TModel, bool>>(contains, new ParameterExpression[] { pe })
                 );
-            return q.Provider.CreateQuery<TModel>(whereCallExpression);
+            return collection.Provider.CreateQuery<TModel>(whereCallExpression);
 
         }
-        public static IQueryable<TModel> Page<TModel>(this IQueryable<TModel> q, PageOption option)
+        public static IQueryable<TModel> Page<TModel>(this IQueryable<TModel> collection, PageOption option)
         {
-            int pageNumber = option.PageNumber;
-            int pageLength = option.PageLength;
-            return q.Skip((pageNumber - 1) * pageLength).Take(pageLength);
+            if (option == null) return collection;
+            return collection.Skip((option.PageNumber - 1) * option.PageLength).Take(option.PageLength);
         }
-        public static IQueryable<TModel> Order<TModel>(this IQueryable<TModel> q, IEnumerable<OrderOption> options)
+        public static IQueryable<TModel> Order<TModel>(this IQueryable<TModel> collection, IEnumerable<OrderOption> options)
         {
+            if (options == null) return collection;
             IOrderedQueryable<TModel> qOrdered;
             var option = options.FirstOrDefault();
             if (option.IsDescending)
-                qOrdered = q.OrderByDescending(option.Column);
+                qOrdered = collection.OrderByDescending(option.Column);
             else
-                qOrdered = q.OrderBy(option.Column);
+                qOrdered = collection.OrderBy(option.Column);
             if (options.Count() == 1)
                 return qOrdered;
             for (int i = 1; i < options.Count(); i++)
@@ -71,6 +57,18 @@ namespace ITMS.Extensions
             }
             return qOrdered;
         }
+        public static IQueryable<TModel> Filter<TModel>(this IQueryable<TModel> collection, IEnumerable<FilterOption> options)
+        {
+            if (options == null) return collection;
+            foreach (var option in options)
+            {
+                collection = collection.Where(option);
+            }
+            return collection;
+        }
+        public static async Task<IEnumerable<TModel>> ApplyQueryAsync<TModel>(this IQueryable<TModel> collection, IQueryOptions options) =>
+            await collection.Search(options.Search).Filter(options.Filters).Order(options.Orders).Page(options.Page).ToListAsync();
+        
         #region Helpers
         public static IOrderedQueryable<TModel> OrderBy<TModel>(this IQueryable<TModel> q, string name)
         {
@@ -124,8 +122,25 @@ namespace ITMS.Extensions
             Expression se = Expression.Convert(Expression.Property(pe, p), typeof(TRet));
             return q.ThenBy(Expression.Lambda<Func<TModel, TRet>>(se, pe));
         }
+        public static IQueryable<TModel> Where<TModel>(this IQueryable<TModel> q, FilterOption option)
+        {
+
+            ParameterExpression pe = Expression.Parameter(typeof(TModel), "m");
+            Expression left = Expression.Property(pe, typeof(TModel).GetProperty(option.Column));
+            Expression right = Expression.Call(Expression.Constant(option.Value.ToLower(), typeof(string)), typeof(string).GetMethod("ToLower", Type.EmptyTypes));
+            Expression eq = Expression.Equal(left, right);
+            MethodCallExpression whereCallExpression = Expression.Call(
+                typeof(Queryable),
+                "Where",
+                new Type[] { q.ElementType },
+                q.Expression,
+                Expression.Lambda<Func<TModel, bool>>(eq, new ParameterExpression[] { pe })
+                );
+            return q.Provider.CreateQuery<TModel>(whereCallExpression);
+        }
         #endregion
 
 
     }
 }
+
