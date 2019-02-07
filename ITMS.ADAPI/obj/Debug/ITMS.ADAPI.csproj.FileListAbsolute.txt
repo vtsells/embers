@@ -1,0 +1,6 @@
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS\ITMS.ADAPI\bin\Debug\ITMS.ADAPI.dll
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS\ITMS.ADAPI\bin\Debug\ITMS.ADAPI.pdb
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS\ITMS.ADAPI\obj\Debug\ITMS.ADAPI.csprojAssemblyReference.cache
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS\ITMS.ADAPI\obj\Debug\ITMS.ADAPI.csproj.CoreCompileInputs.cache
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS\ITMS.ADAPI\obj\Debug\ITMS.ADAPI.dll
+C:\Users\tsells.BPC-FINANCIAL\Desktop\VisualStudioProjects\tsells\ITMS\ITMS.ADAPI\obj\Debug\ITMS.ADAPI.pdb
